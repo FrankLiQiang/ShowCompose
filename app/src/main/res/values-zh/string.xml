@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">秘宝C</string>
+    <string name="invalidUser">您不是合法用户!</string>
+    <string name="invalidPermissions">您必须允许这两种权限。</string>
+    <string name="home">主界面</string>
+    <string name="choose_img">选择图片</string>
+    <string name="choose_file">选择文件</string>
+    <string name="del_chosen">删除选择</string>
+    <string name="decode">解密</string>
+    <string name="encode">加密</string>
+    <string name="list">列表</string>
+    <string name="list1">列表(%1d)</string>
+    <string name="text">文本</string>
+    <string name="font_size">文字大小</string>
+    <string name="search">搜索</string>
+    <string name="next">下一个</string>
+    <string name="return0">回退</string>
+    <string name="file">文件</string>
+    <string name="file_path">文件路径</string>
+    <string name="file_self">文件本身</string>
+    <string name="en_decode_file">加密/解密文件</string>
+    <string name="save_file_path">保存文件路径</string>
+    <string name="help">帮助</string>
+    <string name="about">关于</string>
+    <string name="exit">退出</string>
+    <string name="notPhoto">这不是一张图片!</string>
+    <string name="file_name">隐藏文件:</string>
+
+    <string name="ReadOnly">只读:</string>
+    <string name="password">输入密码:</string>
+    <string name="library_btnOK">确定</string>
+    <string name="library_btnCancel">取消</string>
+    <string name="library_waitForLoginDvr">请稍等......</string>
+    <string name="messageMustInputPassword">请输入密码.</string>
+    <string name="messageSavePassword">两次密码不一致.</string>
+    <string name="messagePasswordError">该密码无效.</string>
+    <string name="messageSaveOk">信息隐藏成功!</string>
+    <string name="messageReadOk">信息解密成功!</string>
+    <string name="messageSaveFailed">信息隐藏失败!</string>
+    <string name="infoEmpty">尚未输入需要隐藏的信息…</string>
+    <string name="infoBeforeChoose">请选择要隐藏信息的目标图片文件.</string>
+    <string name="tooLarge">要隐藏的信息量太大.</string>
+    <string name="messageNoInfo">图片中没有隐藏信息.</string>
+    <string name="messageException">异常.</string>
+    <string name="NotExists"> %1$s 不存在.</string>
+    <string name="addFilePathError">请从沙盒中选择隐藏文件.</string>
+
+    <string name="Ok">确定</string>
+    <string name="Yes">是</string>
+    <string name="No">不是</string>
+    <string name="close">关闭</string>
+
+    <string name="once_more">再按一次返回键退出秘宝.</string>
+    <string name="copy_right">Copyright ©2019 李强 版权所有</string>
+    <string name="item_swipe_menu_delete">删除</string>
+    <string name="delete_file">确定吗?</string>
+    <string name="not_found">没有找到.</string>
+
+    <string name="root_summary">cloudy with a chance of &#8230;</string>
+    <string name="key_logged_in">logged_in</string>
+    <string name="chooseFileFromRoot">请从根目录开始选择文件。</string>
+
+</resources>

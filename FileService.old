@@ -1,0 +1,177 @@
+package com.frank.showcompose
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.ParcelFileDescriptor
+import android.provider.MediaStore.createWriteRequest
+import java.io.BufferedOutputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.Objects
+import kotlin.system.exitProcess
+
+object FileService {
+    fun createFileWithByte(bytes: ByteArray?, fileName: String?) {
+        val file = File(fileName)
+        var outputStream: FileOutputStream? = null
+        var bufferedOutputStream: BufferedOutputStream? = null
+        try {
+            if (file.exists()) {
+                file.delete()
+            }
+            file.createNewFile()
+            outputStream = FileOutputStream(file)
+            bufferedOutputStream = BufferedOutputStream(outputStream)
+            bufferedOutputStream.write(bytes)
+            bufferedOutputStream.flush()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            if (bufferedOutputStream != null) {
+                try {
+                    bufferedOutputStream.close()
+                } catch (e2: Exception) {
+                    e2.printStackTrace()
+                }
+            }
+        }
+    }
+
+    fun saveFile(context: Context, bmp: Bitmap): Int {
+        try {
+            val pfd: ParcelFileDescriptor? =
+                _uriSource?.let { context.contentResolver.openFileDescriptor(it, "w") }
+            val fileOutputStream = FileOutputStream(
+                Objects.requireNonNull<ParcelFileDescriptor?>(pfd).getFileDescriptor()
+            )
+            val isOk = bmp.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+            fileOutputStream.close()
+            pfd!!.close()
+            searchString = "成功"
+            return if (isOk) 0 else 1
+
+        } catch (securityException: SecurityException) {
+            searchString = "失败1"
+            //https://stackoverflow.com/questions/64472765/java-lang-illegalargumentexception-all-requested-items-must-be-referenced-by-sp
+            //https://qiita.com/AIguro/items/56821a9e58b60198968b
+            //https://stackoverflow.com/questions/57786578/android-10-mediastore-update-image-recoverablesecurityexception
+            //https://commonsware.com/blog/2020/01/05/scoped-storage-stories-modify-content-other-app.html
+            //https://www.qiniu.com/qfans/qnso-69989646#comments
+            //https://developer.android.com/training/data-storage/shared/media?hl=zh-cn
+            //https://developer.android.com/reference/android/provider/MediaStore#createWriteRequest(android.content.ContentResolver,%20java.util.Collection%3Candroid.net.Uri%3E)
+            //https://developer.android.com/reference/android/provider/MediaStore#createWriteRequest(android.content.ContentResolver,%20java.util.Collection%3Candroid.net.Uri%3E)
+            //https://java.hotexamples.com/jp/examples/android.content/ContentResolver/openFileDescriptor/java-contentresolver-openfiledescriptor-method-examples.html
+            //https://stackoverflow.com/questions/64472765/java-lang-illegalargumentexception-all-requested-items-must-be-referenced-by-sp
+            //https://stackoverflow.com/questions/64720379/writing-many-files-on-android-11
+            //https://developer.android.com/training/data-storage/shared/photopicker?hl=zh-cn
+            val resolver = context.contentResolver
+            var uris = arrayListOf(_uriSource)
+            try {
+                var pendingIntent = createWriteRequest(resolver, uris)
+            }catch (e: Exception) {
+                searchString = "失败2"
+                var aa = e.toString()
+                aa += ""
+            }
+            var aa = 0
+//                startIntentSenderForResult(
+//                    context, pendingIntent,
+//                    null, 0, 0, 0, 0
+//                )
+//
+//            val recoverableSecurityException = securityException as?
+//                    RecoverableSecurityException
+//                ?: throw RuntimeException(securityException.message, securityException)
+//
+//            val intentSender =
+//                recoverableSecurityException.userAction.actionIntent.intentSender
+//            intentSender?.let {
+//                val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
+//                phonePickIntentResultLauncher.launch(intentSenderRequest)
+//
+//
+//                startIntentSenderForResult(
+//                    context, null,
+//                    null, 0, 0, 0, null
+//                )
+            //}
+        } catch (e: Exception) {
+            searchString = "失败3"
+            var aa = e.toString()
+            aa += ""
+        }
+        return 1
+    }
+
+    @Throws(Exception::class)
+    fun writeFileSelf(context: Context, bFile: ByteArray?) {
+        val pfd: ParcelFileDescriptor? =
+            _uriSelf?.let { context.contentResolver.openFileDescriptor(it, "w") }
+        val fileOutputStream =
+            FileOutputStream(Objects.requireNonNull<ParcelFileDescriptor?>(pfd).fileDescriptor)
+        fileOutputStream.write(bFile)
+        fileOutputStream.close()
+        pfd!!.close()
+    }
+
+    @Throws(Exception::class)
+    fun readFile(context: Context, filename: String?): ByteArray? {
+        val file = File(filename)
+        if (!file.absolutePath.startsWith(context.getExternalFilesDir(null)!!.absolutePath)) {
+            return null
+        }
+        val inStream = FileInputStream(file)
+        val buffer = ByteArray(1024)
+        var len: Int
+        val outStream = ByteArrayOutputStream()
+        while (inStream.read(buffer).also { len = it } != -1) {
+            outStream.write(buffer, 0, len)
+        }
+        val data = outStream.toByteArray()
+        outStream.close()
+        inStream.close()
+        return data
+    }
+
+    @Throws(Exception::class)
+    fun readFileSelf(context: Context, uri: Uri?): ByteArray {
+        val pfd: ParcelFileDescriptor? = context.contentResolver.openFileDescriptor(uri!!, "r")
+        val inStream =
+            FileInputStream(Objects.requireNonNull<ParcelFileDescriptor?>(pfd).getFileDescriptor())
+        val buffer = ByteArray(1024)
+        var len: Int
+        val outStream = ByteArrayOutputStream()
+        while (inStream.read(buffer).also { len = it } != -1) {
+            outStream.write(buffer, 0, len)
+        }
+        val data = outStream.toByteArray()
+        outStream.close()
+        inStream.close()
+        return data
+    }
+}
+
+fun deleteFileAndExit() {
+    try {
+        if (_uriHide != null) {
+            val file = File(Objects.requireNonNull(_uriHide!!.path))
+            if (file.exists()) {
+                file.delete()
+            }
+        }
+        exitProcess(0)
+    } catch (e: Exception) {
+        e.toString()
+    }
+}
+
