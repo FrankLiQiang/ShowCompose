@@ -22,8 +22,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -104,38 +102,33 @@ fun MyNavDrawerApp() {
         },
     )
     {
-        Scaffold(
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState)
-            },
-        ) { _ ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = colorResource(R.color.title)),
-            ) {
-                if (isToDraw > 100) return@Column
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.title)),
+        ) {
+            if (isToDraw > 100) return@Column
 
-                ShowTile(
-                    drawerState,
-                    Modifier
-                        .height(40.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Row(
-                    Modifier
-                        .weight(1.0f)
-                        .background(Color.White)
-                ) {
-                    myTitle = if (menuIndex == CHOOSE_LIST) {
-                        stringResource(id = menu[menuIndex].title) + "(${mutableData.size})"
-                    } else {
-                        stringResource(id = menu[menuIndex].title)
-                    }
-                    showMenuFun(Modifier.weight(1.0f))
+            ShowTile(
+                drawerState,
+                Modifier
+                    .height(40.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Row(
+                Modifier
+                    .weight(1.0f)
+                    .background(Color.White)
+            ) {
+                myTitle = if (menuIndex == CHOOSE_LIST) {
+                    stringResource(id = menu[menuIndex].title) + "(${mutableData.size})"
+                } else {
+                    stringResource(id = menu[menuIndex].title)
                 }
+                showMenuFun(Modifier.weight(1.0f))
             }
         }
+        //}
     }
 }
 
