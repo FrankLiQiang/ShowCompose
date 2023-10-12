@@ -151,7 +151,7 @@ fun ShowList() {
                     color = Color.Black,
                     textIndent = TextIndent(12.sp),
                     background = Color.White,
-                    fontSize = myFontSize.sp,
+                    fontSize = 19.sp,
                 ),
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
