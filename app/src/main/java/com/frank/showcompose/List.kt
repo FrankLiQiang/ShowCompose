@@ -175,11 +175,11 @@ fun ShowList() {
                         for (i in searchStart until mutableData.size) {
                             val m = mutableData[i]
                             if ((m.item
-                                    .toUpperCase()
-                                    .contains(searchString))
+                                    .uppercase()
+                                    .contains(searchString.uppercase()))
                                 || (m.password
-                                    .toUpperCase()
-                                    .contains(searchString))
+                                    .uppercase()
+                                    .contains(searchString.uppercase()))
                             ) {
 
                                 isFound = true
