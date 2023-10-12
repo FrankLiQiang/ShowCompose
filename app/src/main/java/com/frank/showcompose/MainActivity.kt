@@ -1,6 +1,8 @@
 package com.frank.showcompose
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,6 +21,7 @@ import com.frank.showcompose.ui.MyNavDrawerApp
 import com.frank.showcompose.ui.isReadOnly
 import com.frank.showcompose.ui.theme.ShowComposeTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import java.util.Locale
 
 const val CHOOSE_IMAGE = 0
 const val CHOOSE_LIST = 1
@@ -38,6 +41,7 @@ var originalBMP: Bitmap? = null
 lateinit var openBMP: () -> Unit
 lateinit var openHide: () -> Unit
 lateinit var openSelf: () -> Unit
+lateinit var switchLanguage: (locale: Locale) -> Unit
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +50,15 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         mutableData.clear()
         setOpenFileFun()
+        switchLanguage = { locale: Locale ->
+            val config: Configuration = resources.configuration //获取资源配置
+            val resources: Resources = baseContext.resources //获取资源对象
+            val dm = resources.displayMetrics //获取当前设备的显示指标
+            config.setLocale(locale) //设置语言
+            resources.updateConfiguration(config, dm) //更新资源配置
+            //recreate() //重新创建当前 Activity
+        }
+
         setContent {
             ShowComposeTheme {
                 TransparentSystemBars()
@@ -53,6 +66,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     private fun setOpenFileFun() {
         openBMP = {

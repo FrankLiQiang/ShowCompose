@@ -60,6 +60,8 @@ var exitTime = 0L
 
 @Composable
 fun MyNavDrawerApp() {
+    if (isToDraw > 100) return
+
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
