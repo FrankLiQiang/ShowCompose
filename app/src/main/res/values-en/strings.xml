@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hide Info</string>
+    <string name="invalidUser">You are NOT valid user!</string>
+    <string name="invalidPermissions">You MUST set the two Permissions ON!</string>
+    <string name="home">Home</string>
+    <string name="choose_img">Choose Picture</string>
+    <string name="choose_file">Choose File</string>
+    <string name="del_chosen">Remove Chosen</string>
+    <string name="decode">Decode</string>
+    <string name="encode">Encode</string>
+    <string name="list">List</string>
+    <string name="list1">List(%1d)</string>
+    <string name="text">Text</string>
+    <string name="font_size">Font Size</string>
+    <string name="search">Search</string>
+    <string name="next">Next</string>
+    <string name="return0">Return</string>
+    <string name="file">File</string>
+    <string name="file_path">File Path</string>
+    <string name="file_self">File Self</string>
+    <string name="en_decode_file">Encode/Decode File</string>
+    <string name="save_file_path">Save File Path</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+    <string name="notPhoto">It is NOT a photograph!</string>
+    <string name="file_name">Hide File:</string>
+
+    <string name="ReadOnly">Read Only:</string>
+    <string name="password">Enter Password:</string>
+    <string name="library_btnOK">OK</string>
+    <string name="library_btnCancel">Cancel</string>
+    <string name="library_waitForLoginDvr">Please wait......</string>
+    <string name="messageMustInputPassword">Please enter a password.</string>
+    <string name="messageSavePassword">Please enter same password.</string>
+    <string name="messagePasswordError">The password is invalid.</string>
+    <string name="messageSaveOk">The information is hidden successful!</string>
+    <string name="messageReadOk">The information is decode successful!</string>
+    <string name="messageSaveFailed">The information is hidden failed!</string>
+    <string name="infoEmpty">Please enter information…</string>
+    <string name="infoBeforeChoose">Choose File Please.</string>
+    <string name="tooLarge">The information is too LARGE.</string>
+    <string name="messageNoInfo">The image have no hidden information.</string>
+    <string name="messageException">Exception.</string>
+    <string name="NotExists"> %1$s is NOT exists.</string>
+    <string name="addFilePathError">Please select hidden file from sandbox.</string>
+
+    <string name="Ok">OK</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="close">Close</string>
+
+    <string name="once_more">Tap the Back button again to exit the app.</string>
+    <string name="copy_right">Copyright ©2018 Frank Li All Rights Reserved</string>
+    <string name="item_swipe_menu_delete">Delete</string>
+    <string name="delete_file">Are you sure?</string>
+    <string name="not_found">Not Found.</string>
+
+    <string name="root_summary">cloudy with a chance of &#8230;</string>
+    <string name="key_logged_in">logged_in</string>
+    <string name="chooseFileFromRoot">Please choose file from root.</string>
+
+</resources>

@@ -129,7 +129,7 @@ fun ShowList() {
 
     gotoLast = {
         coroutineScope.launch {
-            scrollState.animateScrollToItem(mutableData.size - 1)
+            scrollState.scrollToItem(mutableData.size - 1)
         }
     }
     val imeVisible = WindowInsets.Companion.isImeVisible
@@ -187,7 +187,7 @@ fun ShowList() {
 
                                 m.isItemChosen = true
                                 coroutineScope.launch {
-                                    scrollState.animateScrollToItem(i)
+                                    scrollState.scrollToItem(i)
                                 }
                                 break
                             }

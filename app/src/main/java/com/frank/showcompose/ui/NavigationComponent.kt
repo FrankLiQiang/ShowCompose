@@ -141,7 +141,8 @@ fun MyDrawerContent(
     onBackPress: () -> Unit,
 ) {
     ModalDrawerSheet(
-        modifier.padding(top = 55.dp),      //红米 Note pro 55.dp     Google 6A   33.dp
+//        modifier.padding(top = 55.dp),      //小米
+        modifier.padding(top = 33.dp),      //Google 6A
         drawerContainerColor = Color.Transparent,
     ) {
         Column(
