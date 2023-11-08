@@ -186,6 +186,7 @@ fun ShowList() {
                                 searchStart = i + 1
 
                                 m.isItemChosen = true
+                                lastClickItem = m
                                 coroutineScope.launch {
                                     scrollState.scrollToItem(i)
                                 }
