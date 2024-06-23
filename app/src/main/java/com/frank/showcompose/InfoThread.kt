@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Looper
+//import android.util.Log
 import android.widget.Toast
 import com.frank.showcompose.ui.isConfirm
 import com.frank.showcompose.ui.isDoing
@@ -58,7 +59,6 @@ class InfoThread(var context: Context) : Thread() {
         pText: ByteArray?,
         pFile: ByteArray?,
         pHashBytes: ByteArray?,
-        bodyBytes: ByteArray?,
     ): Int
 
     private fun bmp2byte() {
@@ -78,6 +78,7 @@ class InfoThread(var context: Context) : Thread() {
         isDoing = true
         val result: Int
         if (isConfirm) {
+//            val currentTimeMillis = System.currentTimeMillis()
             getListData()
             result = saveAllInfo()
             if (result == 0) {
@@ -91,6 +92,8 @@ class InfoThread(var context: Context) : Thread() {
                 }
                 isDoing = false
                 isToDraw = 1 - isToDraw
+//                val currentTimeMillis1 = System.currentTimeMillis()
+//                Log.i("AAABBB", "Time = " + (currentTimeMillis1 - currentTimeMillis))
                 Looper.loop()
             }
         } else {
@@ -195,7 +198,6 @@ class InfoThread(var context: Context) : Thread() {
             if ((5 + passwordBytes.size + infoLength[0] + infoLength[1] + infoLength[2]) * 8 > originalBMP!!.width * originalBMP!!.height * 3 - 500) {
                 return -2
             }
-            val bodyBytes = ByteArray((infoLength[0] + infoLength[1] + infoLength[2]) * 8)
             allBytes = hashBytes(allBytes)
             saveInfo(
                 bmpByteArray,
@@ -205,7 +207,6 @@ class InfoThread(var context: Context) : Thread() {
                 bText,
                 bFile,
                 allBytes,
-                bodyBytes,
             )
         } catch (e: Exception) {
             e.printStackTrace()
