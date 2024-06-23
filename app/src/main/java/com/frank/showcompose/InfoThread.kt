@@ -76,7 +76,6 @@ class InfoThread(var context: Context) : Thread() {
 
     override fun run() {
         isDoing = true
-
         val result: Int
         if (isConfirm) {
             getListData()
