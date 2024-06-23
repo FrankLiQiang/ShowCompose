@@ -10,6 +10,7 @@ import com.frank.showcompose.ui.isDoing
 import com.frank.showcompose.ui.password1
 import java.io.File
 import java.nio.ByteBuffer
+import java.security.MessageDigest
 import java.util.Objects
 
 var uriSource: Uri? = null
@@ -40,9 +41,9 @@ class InfoThread(var context: Context) : Thread() {
     ): ByteArray?
 
     private external fun readInfo(
+        infoLength: IntArray?,
         headerBytes: ByteArray?,
         `in`: ByteArray?,
-        infoLength: IntArray?,
         pListInfo: ByteArray?,
         pTextInfo: ByteArray?,
         pFileInfo: ByteArray?,
@@ -56,6 +57,7 @@ class InfoThread(var context: Context) : Thread() {
         pList: ByteArray?,
         pText: ByteArray?,
         pFile: ByteArray?,
+        pHashBytes: ByteArray?,
         bodyBytes: ByteArray?,
     ): Int
 
@@ -74,6 +76,7 @@ class InfoThread(var context: Context) : Thread() {
 
     override fun run() {
         isDoing = true
+
         val result: Int
         if (isConfirm) {
             getListData()
@@ -117,9 +120,9 @@ class InfoThread(var context: Context) : Thread() {
         val fileBytes = ByteArray(infoLength[2])
         val fileNameBytes = ByteArray(infoLength[4])
         readInfo(
+            infoLength,
             headerBytes,
             bmpByteArray,
-            infoLength,
             listBytes,
             textBytes,
             fileBytes,
@@ -154,6 +157,14 @@ class InfoThread(var context: Context) : Thread() {
         return 0
     }
 
+    private fun concatArrays(vararg arrays: ByteArray): ByteArray {
+        var result = byteArrayOf()
+        arrays.forEach { array ->
+            result += array
+        }
+        return result
+    }
+
     private fun saveAllInfo(): Int {
         try {
             var fileNameBytes = ByteArray(0)
@@ -166,6 +177,7 @@ class InfoThread(var context: Context) : Thread() {
             infoLength[1] = bText.size
             infoLength[2] = 0
             infoLength[3] = passwordBytes.size
+            var allBytes = concatArrays(passwordBytes, bList, bText)
             if (_hideFileName.isNotEmpty()) {
                 bFile = if (uriHide!!.path!!.startsWith("/document/")) {
                     FileService.readFileSelf(context, uriHide)
@@ -175,6 +187,7 @@ class InfoThread(var context: Context) : Thread() {
                 if (bFile == null) {
                     return -3
                 }
+                allBytes = concatArrays(allBytes, bFile!!)
                 infoLength[2] = bFile!!.size
                 fileNameBytes = _hideFileName.toByteArray(charset("UNICODE"))
                 convertByteOrder(fileNameBytes)
@@ -184,6 +197,7 @@ class InfoThread(var context: Context) : Thread() {
                 return -2
             }
             val bodyBytes = ByteArray((infoLength[0] + infoLength[1] + infoLength[2]) * 8)
+            allBytes = hashBytes(allBytes)
             saveInfo(
                 bmpByteArray,
                 fileNameBytes,
@@ -191,6 +205,7 @@ class InfoThread(var context: Context) : Thread() {
                 bList,
                 bText,
                 bFile,
+                allBytes,
                 bodyBytes,
             )
         } catch (e: Exception) {
@@ -223,4 +238,8 @@ class InfoThread(var context: Context) : Thread() {
 fun setPercent(infoLength: Int) {
     val all: Float = (originalBMP!!.width * originalBMP!!.height * 3.0f - 500) / 8
     infoPercent = infoLength / all
+}
+
+fun hashBytes(input: ByteArray): ByteArray {
+    return MessageDigest.getInstance("SHA-256").digest(input)
 }
