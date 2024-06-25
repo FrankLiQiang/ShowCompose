@@ -109,6 +109,7 @@ class MainActivity : ComponentActivity() {
                 translationY0 = 0.0f
                 imagePath = uri.path!!
                 uriSource = uri
+                isReadOnly = false
                 isDrawId = 1 - isDrawId
             }
 

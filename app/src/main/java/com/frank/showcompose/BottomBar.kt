@@ -34,6 +34,7 @@ import com.frank.showcompose.ui.showConfirm
 var isShowConfirm by mutableStateOf(false)
 
 fun saveImage(context: Context) {
+    getListData()
     if (originalBMP == null) {
         Toast.makeText(context, R.string.infoBeforeChoose, Toast.LENGTH_SHORT).show()
     } else if (isReadOnly) {
@@ -71,6 +72,7 @@ fun BottomBar() {
                     Toast.makeText(context, R.string.infoBeforeChoose, Toast.LENGTH_SHORT).show()
                 } else {
                     isConfirm = false
+                    isReadOnly = true
                     isShowDialog = true
                 }
             },

@@ -42,7 +42,7 @@ import com.frank.showcompose.R
 
 var isShowDialog by mutableStateOf(false)
 var isConfirm by mutableStateOf(false)
-var isReadOnly by mutableStateOf(true)
+var isReadOnly by mutableStateOf(false)
 var password1 by mutableStateOf("")
 var password2 by mutableStateOf("")
 var isDoing by mutableStateOf(false)
@@ -79,29 +79,30 @@ private fun CustomDialogWithResultExample(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Color Selection
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
+                if (!isConfirm) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
 
-                    Text(
-                        text = stringResource(id = R.string.ReadOnly),
-                        textAlign = TextAlign.End,
-                        modifier = Modifier.weight(1.0f)
-                    )
+                        Text(
+                            text = stringResource(id = R.string.ReadOnly),
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.weight(1.0f)
+                        )
 
-                    Checkbox(
-                        checked = isReadOnly,
-                        onCheckedChange = { isReadOnly = it },
-                        enabled = true,
-                        //colors = CheckboxDefaults.colors(custom),
-                        modifier = Modifier
-                            .padding(start = 20.dp)
-                            .size(3.dp)
-                    )
-                    Row(modifier = Modifier.weight(1.0f)) {}
-                    Spacer(modifier = Modifier.height(8.dp))
+                        Checkbox(
+                            checked = isReadOnly,
+                            onCheckedChange = { isReadOnly = it },
+                            enabled = true,
+                            //colors = CheckboxDefaults.colors(custom),
+                            modifier = Modifier
+                                .padding(start = 20.dp)
+                                .size(3.dp)
+                        )
+                        Row(modifier = Modifier.weight(1.0f)) {}
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
 
                 TextField(
