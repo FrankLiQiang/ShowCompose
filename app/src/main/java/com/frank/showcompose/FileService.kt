@@ -14,7 +14,7 @@ import kotlin.system.exitProcess
 
 object FileService {
     fun createFileWithByte(bytes: ByteArray?, fileName: String?) {
-        val file = File(fileName)
+        val file = File(fileName!!)
         var outputStream: FileOutputStream? = null
         var bufferedOutputStream: BufferedOutputStream? = null
         try {
@@ -74,11 +74,8 @@ object FileService {
     }
 
     @Throws(Exception::class)
-    fun readFile(context: Context, filename: String?): ByteArray? {
-        val file = File(filename)
-        if (!file.absolutePath.startsWith(context.getExternalFilesDir(null)!!.absolutePath)) {
-            return null
-        }
+    fun readFile(filename: String?): ByteArray? {
+        val file = File(filename!!)
         val inStream = FileInputStream(file)
         val buffer = ByteArray(1024)
         var len: Int
