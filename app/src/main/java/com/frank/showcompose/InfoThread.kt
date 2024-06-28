@@ -3,9 +3,7 @@ package com.frank.showcompose
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
 import android.os.Looper
-//import android.util.Log
 import android.widget.Toast
 import com.frank.showcompose.ui.isConfirm
 import com.frank.showcompose.ui.isDoing
@@ -96,6 +94,12 @@ class InfoThread(var context: Context) : Thread() {
 //                val currentTimeMillis1 = System.currentTimeMillis()
 //                Log.i("AAABBB", "Time = " + (currentTimeMillis1 - currentTimeMillis))
                 Looper.loop()
+            } else if (result == -2) {
+                Looper.prepare()
+                Toast.makeText(context, R.string.tooLarge, Toast.LENGTH_SHORT).show()
+                isDoing = false
+                isToDraw = 1 - isToDraw
+                Looper.loop()
             }
         } else {
             if (readInfoJava() == 0) {
@@ -136,9 +140,9 @@ class InfoThread(var context: Context) : Thread() {
             _hideFileName = ""
             if (infoLength[2] > 0) {
                 _hideFileName = String(fileNameBytes, Charsets.UTF_16)
-//                _hideFilePath =
-//                    Objects.requireNonNull<File?>(context.getExternalFilesDir(null)).absolutePath
-                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+                _hideFilePath =
+                    Objects.requireNonNull<File?>(context.getExternalFilesDir(null)).absolutePath
+//                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
 
                 uriHide = Uri.parse("$_hideFilePath/$_hideFileName")
                 FileService.createFileWithByte(fileBytes, uriHide!!.path)
@@ -198,11 +202,8 @@ class InfoThread(var context: Context) : Thread() {
                 convertByteOrder(fileNameBytes)
                 infoLength[4] = fileNameBytes.size
             }
-            if ((5 + passwordBytes.size + infoLength[0] + infoLength[1] + infoLength[2]) * 8 > originalBMP!!.width * originalBMP!!.height * 3 - 500) {
-                return -2
-            }
             allBytes = hashBytes(allBytes)
-            saveInfo(
+            if (saveInfo(
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
@@ -210,7 +211,10 @@ class InfoThread(var context: Context) : Thread() {
                 bText,
                 bFile,
                 allBytes,
-            )
+            ) != 0 )
+            {
+                return -2
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             return -1
