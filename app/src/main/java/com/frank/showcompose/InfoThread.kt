@@ -3,14 +3,16 @@ package com.frank.showcompose
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment
+//import android.os.Environment
 import android.os.Looper
 import android.widget.Toast
 import com.frank.showcompose.ui.isConfirm
 import com.frank.showcompose.ui.isDoing
 import com.frank.showcompose.ui.password1
+import java.io.File
 import java.nio.ByteBuffer
 import java.security.MessageDigest
+import java.util.Objects
 
 var uriSource: Uri? = null
 var uriSelf: Uri? = null
@@ -42,7 +44,7 @@ class InfoThread(var context: Context) : Thread() {
     private external fun readInfo(
         infoLength: IntArray?,
         headerBytes: ByteArray?,
-        `in`: ByteArray?,
+        bmpBytes: ByteArray?,
         pListInfo: ByteArray?,
         pTextInfo: ByteArray?,
         pFileInfo: ByteArray?,
@@ -50,7 +52,9 @@ class InfoThread(var context: Context) : Thread() {
     ): Int
 
     private external fun saveInfo(
-        `in`: ByteArray?,
+        version: Byte,
+        bits: Byte,
+        bmpBytes: ByteArray?,
         pFileName: ByteArray?,
         pPassword: ByteArray?,
         pList: ByteArray?,
@@ -99,6 +103,12 @@ class InfoThread(var context: Context) : Thread() {
                 isDoing = false
                 isToDraw = 1 - isToDraw
                 Looper.loop()
+            } else {
+                Looper.prepare()
+                Toast.makeText(context, R.string.messageSaveFailed, Toast.LENGTH_SHORT).show()
+                isDoing = false
+                isToDraw = 1 - isToDraw
+                Looper.loop()
             }
         } else {
             if (readInfoJava() == 0) {
@@ -139,7 +149,9 @@ class InfoThread(var context: Context) : Thread() {
             _hideFileName = ""
             if (infoLength[2] > 0) {
                 _hideFileName = String(fileNameBytes, Charsets.UTF_16)
-                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+                _hideFilePath =
+                    Objects.requireNonNull<File?>(context.getExternalFilesDir(null)).absolutePath
+//                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
 
                 uriHide = Uri.parse("$_hideFilePath/$_hideFileName")
                 FileService.createFileWithByte(fileBytes, uriHide!!.path)
@@ -201,6 +213,8 @@ class InfoThread(var context: Context) : Thread() {
             }
             allBytes = hashBytes(allBytes)
             if (saveInfo(
+                    1,
+                    1,
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
