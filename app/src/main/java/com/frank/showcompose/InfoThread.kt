@@ -3,7 +3,7 @@ package com.frank.showcompose
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-//import android.os.Environment
+import android.os.Environment
 import android.os.Looper
 import android.widget.Toast
 import com.frank.showcompose.ui.isConfirm
@@ -24,7 +24,7 @@ class InfoThread(var context: Context) : Thread() {
     private lateinit var bText: ByteArray
     private var bFile: ByteArray? = null
     private lateinit var bmpByteArray: ByteArray
-    private val infoLength = IntArray(5)
+    private val infoLength = IntArray(7)
 
     init {
         try {
@@ -214,7 +214,7 @@ class InfoThread(var context: Context) : Thread() {
             allBytes = hashBytes(allBytes)
             if (saveInfo(
                     1,
-                    1,
+                    2,
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
