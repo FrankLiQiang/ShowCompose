@@ -214,7 +214,7 @@ class InfoThread(var context: Context) : Thread() {
             allBytes = hashBytes(allBytes)
             if (saveInfo(
                     17,
-                    1,
+                    3,
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
