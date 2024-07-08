@@ -53,7 +53,6 @@ class InfoThread(var context: Context) : Thread() {
 
     private external fun saveInfo(
         version: Byte,
-        bits: Byte,
         bmpBytes: ByteArray?,
         pFileName: ByteArray?,
         pPassword: ByteArray?,
@@ -214,7 +213,6 @@ class InfoThread(var context: Context) : Thread() {
             allBytes = hashBytes(allBytes)
             if (saveInfo(
                     17,
-                    3,
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
