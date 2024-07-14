@@ -24,7 +24,7 @@ class InfoThread(var context: Context) : Thread() {
     private lateinit var bText: ByteArray
     private var bFile: ByteArray? = null
     private lateinit var bmpByteArray: ByteArray
-    private val infoLength = IntArray(7)
+    private val infoLength = IntArray(8)
 
     init {
         try {
@@ -44,7 +44,6 @@ class InfoThread(var context: Context) : Thread() {
     private external fun readInfo(
         infoLength: IntArray?,
         headerBytes: ByteArray?,
-        bmpBytes: ByteArray?,
         pListInfo: ByteArray?,
         pTextInfo: ByteArray?,
         pFileInfo: ByteArray?,
@@ -137,7 +136,6 @@ class InfoThread(var context: Context) : Thread() {
         readInfo(
             infoLength,
             headerBytes,
-            bmpByteArray,
             listBytes,
             textBytes,
             fileBytes,
@@ -212,7 +210,7 @@ class InfoThread(var context: Context) : Thread() {
             }
             allBytes = hashBytes(allBytes)
             if (saveInfo(
-                    17,
+                    21,//17,
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
