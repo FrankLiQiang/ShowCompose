@@ -42,8 +42,10 @@ class InfoThread(var context: Context) : Thread() {
     ): ByteArray?
 
     private external fun readInfo(
-        infoLength: IntArray?,
+        infoLength: IntArray?,        // V1 以后，是第一个
         headerBytes: ByteArray?,
+//        bmpBytes: ByteArray?,       //V26 及以下Only
+//        infoLength: IntArray?,          // V1 以后，是第一个
         pListInfo: ByteArray?,
         pTextInfo: ByteArray?,
         pFileInfo: ByteArray?,
@@ -51,7 +53,8 @@ class InfoThread(var context: Context) : Thread() {
     ): Int
 
     private external fun saveInfo(
-        version: Byte,
+        version: Byte,      // V15以上
+//        bits: Byte,     //V15 Only
         bmpBytes: ByteArray?,
         pFileName: ByteArray?,
         pPassword: ByteArray?,
@@ -134,8 +137,10 @@ class InfoThread(var context: Context) : Thread() {
         val fileBytes = ByteArray(infoLength[2])
         val fileNameBytes = ByteArray(infoLength[4])
         readInfo(
-            infoLength,
+            infoLength,         // V1 以后，是第一个
             headerBytes,
+//            bmpByteArray,       //V26 及以下Only
+//            infoLength,         // V1 以后，是第一个
             listBytes,
             textBytes,
             fileBytes,
@@ -209,15 +214,20 @@ class InfoThread(var context: Context) : Thread() {
                 infoLength[4] = fileNameBytes.size
             }
             allBytes = hashBytes(allBytes)
+
+            //V1 Only
+//            val bodyBytes = ByteArray((infoLength[0] + infoLength[1] + infoLength[2]) * 8)
             if (saveInfo(
-                    21,//17,
+                    21,//17,    V15以上
+//                    2,      //V15 Only
                 bmpByteArray,
                 fileNameBytes,
                 passwordBytes,
                 bList,
                 bText,
                 bFile,
-                allBytes,
+//                bodyBytes,      //V1 Only
+                allBytes,   //V4 以上
             ) != 0 )
             {
                 return -2
