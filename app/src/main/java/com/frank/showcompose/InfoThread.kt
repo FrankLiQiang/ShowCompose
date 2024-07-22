@@ -151,9 +151,9 @@ class InfoThread(var context: Context) : Thread() {
             _hideFileName = ""
             if (infoLength[2] > 0) {
                 _hideFileName = String(fileNameBytes, Charsets.UTF_16)
-                _hideFilePath =
-                    Objects.requireNonNull<File?>(context.getExternalFilesDir(null)).absolutePath
-//                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+//                _hideFilePath =
+//                    Objects.requireNonNull<File?>(context.getExternalFilesDir(null)).absolutePath
+                _hideFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
 
                 uriHide = Uri.parse("$_hideFilePath/$_hideFileName")
                 FileService.createFileWithByte(fileBytes, uriHide!!.path)
